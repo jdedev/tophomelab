@@ -6,7 +6,6 @@ tcp:
       entryPoints:
         - websecure  # This should match the entrypoint for 443
       rule: "HostSNIRegexp(`^.+\\.serverhome\\.info`)"
-      # rule: "HostSNI(`*`)"  # Accepts any TLS request
       service: serverhome-service
       tls:
         passthrough: true        
@@ -15,7 +14,6 @@ tcp:
       entryPoints:
         - websecure  # This should match the entrypoint for 443
       rule: "HostSNIRegexp(`^.+\\.tophomelab\\.work`)"
-      # rule: "HostSNI(`*`)"  # Accepts any TLS request
       service: tophomelab-service
       tls:
         passthrough: true   
