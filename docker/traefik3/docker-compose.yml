@@ -1,0 +1,32 @@
+services:
+  traefik3:
+    image: traefik:v3.0
+    container_name: traefik
+    restart: always
+    command:
+      - "--configFile=/etc/traefik/traefik.yml"  # Load static config from file     
+    environment:
+      - TZ=Australia/Melbourne       
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Dashboard (if insecure mode is enabled)
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./traefik.yml:/etc/traefik/traefik.yml:ro"  # Mount static config
+      - "./dynamic.yml:/etc/traefik/dynamic.yml:ro"  # Mount dynamic config      
+      - "./logs:/var/log"  # Mount logs to local directory      
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik3.homelab.lan`)"
+      - "traefik.http.routers.traefik.entrypoints=web"
+      - "traefik.http.routers.traefik.service=api@internal"
+
+  whoami:
+    image: traefik/whoami
+    container_name: whoami
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.traefik3.homelab.lan`)"
+      - "traefik.http.routers.whoami.entrypoints=web"

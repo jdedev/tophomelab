@@ -1,0 +1,35 @@
+tcp:
+
+  routers:
+
+    serverhome-router:
+      entryPoints:
+        - websecure  # This should match the entrypoint for 443
+      rule: "HostSNIRegexp(`^.+\\.serverhome\\.info`)"
+      # rule: "HostSNI(`*`)"  # Accepts any TLS request
+      service: serverhome-service
+      tls:
+        passthrough: true        
+
+    tophomelab-router:
+      entryPoints:
+        - websecure  # This should match the entrypoint for 443
+      rule: "HostSNIRegexp(`^.+\\.tophomelab\\.work`)"
+      # rule: "HostSNI(`*`)"  # Accepts any TLS request
+      service: tophomelab-service
+      tls:
+        passthrough: true   
+
+  services:
+  
+    serverhome-service:
+      loadBalancer:
+        servers:
+          - address: "10.0.5.111:443"  # Forward traffic to the VM     
+
+    tophomelab-service:
+      loadBalancer:
+        servers:
+          - address: "10.0.6.101:443"  # Forward traffic to the VM               
+
+

@@ -1,0 +1,34 @@
+# traefik.yml (Static Configuration)
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+# Enable the API & Dashboard
+api:
+  dashboard: true
+  insecure: true  # ⚠️ Not recommended for production
+
+# Define EntryPoints
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+
+# Enable Logging
+log:
+  level: DEBUG
+  filePath: "/var/log/traefik.log"
+
+# Enable Access Logs
+accessLog:
+  filePath: "/var/log/access.log"
+  format: json
+
+# Enable Docker & File Provider
+providers:
+  docker:
+    exposedByDefault: false
+  file:
+    filename: "/etc/traefik/dynamic.yml"  # Loads dynamic configuration
+    watch: true  # Auto-reload on changes
