@@ -1,6 +1,8 @@
 
 ## Create service
 
+[https://github.com/jdedev/tophomelab/blob/main/linux/systemd.md](https://github.com/jdedev/tophomelab/blob/main/linux/systemd.md)
+
 ```shell
 #!/bin/bash
 
